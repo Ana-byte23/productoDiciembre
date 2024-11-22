@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Selección de productos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f7f7f7;
+    }
+    .producto {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin: 20px auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 80%;
+      background-color: #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+    }
+    .carousel {
+      display: flex;
+      overflow: hidden;
+      width: 300px;
+      height: 200px;
+      position: relative;
+      border-radius: 10px;
+    }
+    .carousel img {
+      width: 300px;
+      height: 200px;
+      flex-shrink: 0;
+      transition: transform 0.3s ease-in-out;
+    }
+    .carousel-buttons {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+    }
+    .carousel-buttons button {
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 50%;
+    }
+    .carousel-buttons button:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+    .boton {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+    .boton:hover {
+      background-color: #3e8e41;
+    }
+  </style>
+</head>
+<body>
+  <h1>Selección de productos</h1>
+
+  <!-- Producto con carrusel -->
+  <div class="producto">
+    <div class="carousel" id="carouselProducto1">
+      <img src="producto1_1.jpg" alt="Producto 1 Imagen 1">
+      <img src="producto1_2.jpg" alt="Producto 1 Imagen 2">
+      <img src="producto1_3.jpg" alt="Producto 1 Imagen 3">
+    </div>
+    <div class="carousel-buttons">
+      <button onclick="moverCarrusel(-1, 'carouselProducto1')">❮</button>
+      <button onclick="moverCarrusel(1, 'carouselProducto1')">❯</button>
+    </div>
+    <h2>Producto 1</h2>
+    <p>Descripción del producto 1</p>
+    <button class="boton" onclick="redirigirWhatsApp('Producto 1')">Seleccionar</button>
+  </div>
+
+  <script>
+    function moverCarrusel(direccion, carouselId) {
+      const carousel = document.getElementById(carouselId);
+      const images = carousel.querySelectorAll('img');
+      const currentTransform = getComputedStyle(images[0]).transform;
+      const currentOffset = currentTransform !== 'none' ? parseFloat(currentTransform.split(',')[4]) : 0;
+
+      const newOffset = currentOffset - direccion * 300;
+      const maxOffset = -(images.length - 1) * 300;
+
+      if (newOffset <= 0 && newOffset >= maxOffset) {
+        images.forEach(img => {
+          img.style.transform = `translateX(${newOffset}px)`;
+        });
+      }
+    }
+
+    function redirigirWhatsApp(producto) {
+      const numeroTelefono = "5573758179";
+      const mensaje = `Hola, estoy interesado en el ${producto}.`;
+      const url = `https://wa.me/52${numeroTelefono}?text=${encodeURIComponent(mensaje)}`;
+      window.location.href = url;
+    }
+  </script>
+</body>
+</html>
